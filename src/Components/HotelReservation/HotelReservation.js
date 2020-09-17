@@ -3,6 +3,7 @@ import { userContext } from '../../App';
 
 const HotelReservation = ({hotelData}) => {
   const [loggedInuser, setloggedInUser]=useContext(userContext)
+  console.log(loggedInuser )
   const {title,image,p1,p2,p3,rating,price,other}=hotelData;
   
   return (

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { userContext } from '../../App';
 import "./Destination.css"
 
 
 const Destination = ({cityInfo, handleBooking,borderStyle}) => {
-  
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
   const {image,location}=cityInfo;
 
 

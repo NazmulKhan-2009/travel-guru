@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-// import Calendar from 'react-calendar'
+import React, { useContext, useState } from 'react';
 import DatePicker from 'react-date-picker';
 import { Link } from 'react-router-dom';
+import { userContext } from '../../App';
 import "./StartBooking.css"
 const StartBooking = (props) => {
-  // console.log(props)
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
+  
   const {id}=props.city
   console.log( id)
   const [fromDate, setfromDate] = useState(new Date());

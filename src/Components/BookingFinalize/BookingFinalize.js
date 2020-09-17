@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { userContext } from '../../App';
 import Header from '../Header/Header';
 import { LocationData } from '../LocationData';
 import StartBooking from '../StartBooking/StartBooking';
 
 const BookingFinalize = () => {
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
   const {rootId}=useParams()
   const location=LocationData[rootId-1]
   console.log(location);
@@ -12,7 +14,7 @@ const BookingFinalize = () => {
   const homeStyle={
     
     marginTop:"0px",
-    // backgroundImage:'url("image/Rectangle 1.png")',
+    
     backgroundImage:'linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url("../image/Rectangle 1.png")',
     height:'100vh',
     backgroundRepeat:"no-repeat",

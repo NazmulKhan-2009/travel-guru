@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { userContext } from '../../App';
 import Destination from '../Destination/Destination';
 import Header from '../Header/Header';
 import { LocationData } from '../LocationData';
@@ -7,6 +8,7 @@ import { LocationData } from '../LocationData';
 
 
 const Home = () => {
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
 
   
   const [booking, setBooking]=useState({
@@ -23,7 +25,7 @@ const Home = () => {
   const homeStyle={
     
     marginTop:"0px",
-    // backgroundImage:'url("image/Rectangle 1.png")',
+    
     backgroundImage:'linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url("image/Rectangle 1.png")',
     height:'100vh',
     backgroundRepeat:"no-repeat",
@@ -51,10 +53,10 @@ const Home = () => {
         <div className="row">
 
           <div className="col-sm-10 col-md-4">
-            <h1 style={{color:"white"}}>{booking.location}</h1>
+            <h1 style={{color:"white",fontFamily: "'MuseoModerno', cursive",fontSize:"50px"}}>{booking.location}</h1>
             <p style={{color:"white"}}>{booking.history}</p>
             {
-              booking.isBooking && <a href={`/bookingfinalize/${booking.id}`} className="btn btn-danger">Booking</a>
+              booking.isBooking && <a href={`/bookingfinalize/${booking.id}`} className="btn" style={{background:"#F9A51A"}}>Booking</a>
             }
           </div>
           <div className="col-sm-10 col-md-8" style={{display: 'flex'}}>

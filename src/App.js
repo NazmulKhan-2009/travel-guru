@@ -1,8 +1,5 @@
 import React, { createContext, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Header from './Components/Header/Header';
-import Destination from './Components/Destination/Destination';
 import Home from './Components/Home/Home';
 import HotelsRoom from './Components/Hotels/HotelsRoom';
 import Login from './Components/Login/Login';

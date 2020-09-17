@@ -1,59 +1,58 @@
 import React, { useContext, useState } from 'react';
 import { userContext } from '../../App';
 import logo from "../../Logo.png"
-// import SignUp from '../SignUp/SignUp';
+
 import fbookIcon from '../../Icon/fb.png'
 import googleIcon from "../../Icon/google.png"
 import "./login.css";
-import * as firebase from "firebase/app";
-import "firebase/auth";
-import firebaseConfig from './firebase.config';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { createUserWithEmailAndPassword, handleFbSignIn, handleGoogleSignIn, handleSignOut, initializeLoginFramework, signInWithEmailAndPassword } from './LoginManager';
 
 const Login = () => {
+  
 
   const history=useHistory()
     const location=useLocation()
     let { from } = location.state || { from: { pathname: "/" } };
   const [loggedInuser, setloggedInUser]=useContext(userContext)
-  const [signup, setsignup]=useState(false)
-  const [newUser, setnewUser]=useState({
+
+  const [newuser, setNewuser]=useState(false)
+  
+  const [user, setUser]=useState({
     email:"",
     password:"",
     name:"",
-    phot:"",
-    
+    photo:"",
+    isSignedIn:false, 
+    error:'',
+    success:false
 })
 
-if(firebase.apps.length===0){
-  firebase.initializeApp(firebaseConfig);
-}
+
+initializeLoginFramework();
+
+
+
+// START FaceBook SIGN IN****************
+  const fbSignIn=()=>{
+    handleFbSignIn()
+    .then(res=>{
+    handleResponse(res, true)
+    })
+  }
+  //END FaceBook SIGN IN***
 
 // GOGGLE SIGN iN
-const handleGoogleSignIn=()=>{
-  const provider = new firebase.auth.GoogleAuthProvider();
+const GoogleSignIn=()=>{
+  handleGoogleSignIn()
+      .then(res=>{
+        handleResponse(res, true)
+        
 
-  firebase.auth().signInWithPopup(provider).then(function(result) {
-    
-    
-    const {displayName, email} = result.user;
-    const signedInUser={name:displayName, email:email} 
-    setloggedInUser(signedInUser)
-    history.replace(from)
-    // console.log( newUserInfo)
-    
-    
-  }).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
+      })
+  
 }
+
 // FORM VALIDATION START
 const handleValidation=e=>{
   let isFormValid=true;   
@@ -69,29 +68,50 @@ const handleValidation=e=>{
      isFormValid=isPassInFormet && isPassLength
  }
  if(isFormValid){
-     const newUserInfo={...newUser}
+     const newUserInfo={...user}
      newUserInfo[name]=value           
-     setnewUser(newUserInfo)
+     setUser(newUserInfo)
  }
 }
 // FORM VALIDATION END
 const handleSubmit=(e)=>{
   e.preventDefault()
-  console.log( newUser.email , newUser.password)
-  // if(newUser.email && newUser.password){
-  //    firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
-  //    .catch(function(error) {
-  //        // Handle Errors here.
-  //        var errorCode = error.code;
-  //        var errorMessage = error.message;
-  //        console.log( errorCode , errorMessage)
-  //        // ...
-  //      });
-  // }
+  
+  if(newuser && user.email && user.password){
+
+    createUserWithEmailAndPassword(user.name, user.email, user.password)
+      .then(res=>{
+        handleResponse(res, true)
+        
+
+      })
+
+    
+  }
+  if(!newuser && user.email && user.password){
+    signInWithEmailAndPassword(user.email, user.password,)
+    .then(res=>{
+      handleResponse(res, true)
+      
+    })
+  }
 }
 
-
-
+const signOut=()=>{
+  handleSignOut()
+  .then(res=>{
+    handleResponse(res, false)
+   
+  })
+}
+const handleResponse=(res, redirect)=>{
+  setUser(res)
+  setloggedInUser(res)
+  if(redirect){
+    history.replace(from);
+  }
+  
+ }
 
 
 
@@ -111,23 +131,26 @@ const handleSubmit=(e)=>{
     
       <ul className="navbar-nav mr-auto mb-2 mb-lg-0 ml-auto">
         <li className="nav-item pl-5">
-          <a className="nav-link text-dark" aria-current="page" href="/home">Home</a>
+          <Link className="nav-link text-dark" aria-current="page" to="/home">Home</Link>
         </li>
         <li className="nav-item pl-5 ">
-          <a className="nav-link text-dark" href="#">Link</a>
+          <Link className="nav-link text-dark" to="#">Destination</Link>
         </li>
         <li className="nav-item pl-5 ">
-          <a className="nav-link  text-dark" href="#">Link</a>
+          <Link className="nav-link  text-dark" to="#">Blog</Link>
         </li>
         <li className="nav-item pl-5 ">
-          <a className="nav-link text-dark" href="#">Link</a>
+          <Link className="nav-link text-dark" to="#">contact</Link>
         </li> 
            
          
       </ul>
       
       <div className="text-center">
-      <button className="btn btn-danger">Login as {loggedInuser.name}</button>
+      {
+        newuser && <button onClick={signOut} className="btn btn-danger" >Sign Out</button>
+      }
+      
       </div>
     </div>
   </div>
@@ -137,19 +160,19 @@ const handleSubmit=(e)=>{
       <div className='container nav_bg sign-in-wrapper'>
       <div className='row'>
         <div className='col-4 mx-auto bg-light my-form'>
-        <h4>{signup ? "Create An Account":"Login In"}</h4>
+        <h4>{newuser ? "Create An Account":"Login In"}</h4>
             <form onSubmit={handleSubmit}>
             {/* signup */}
-            { signup &&  
+            { newuser &&  
             <label>
                 <span>First Name</span>
-                <input type="text" name="firstname"/>
+                <input type="text" name="firstname" onBlur={handleValidation}/>
               </label>
             }
-            { signup &&
+            { newuser &&
               <label>
                 <span>Last Name</span>
-                <input type="text" name="lastname"/>
+                <input type="text" name="lastname" onBlur={handleValidation}/>
               </label>
             }
             
@@ -166,27 +189,27 @@ const handleSubmit=(e)=>{
                 <input type="password" name="password" onBlur={handleValidation} required/>
               </label>
             {/* signup */}
-              { signup &&<label>
+              { newuser &&<label>
                 <span>Confirm Password</span>
                 <input type="Password" name="retype"/>
               </label>}
              {/* signup  */}
               
               {/* <button class="submit" type="button" >Sign In</button> */}
-              <input type="submit" value="Submit"/>
+              <input type="submit" value="Submit" onClick={handleSubmit}/>
             </form>
-            <p style={{textAlign:"center"}}>{signup ? "Already have An Account ? ":"Don't Have account ?"  }<span onClick={()=>setsignup(!signup)} style={{color:"#F9A51A",cursor:"pointer"}}>{signup? " SignIn" :" Create Account"}</span></p>  
+            <p style={{textAlign:"center"}}>{newuser ? "Already have An Account ? ":"Don't Have account ?"  }<span onClick={()=>setNewuser(!newuser)} style={{color:"#F9A51A",cursor:"pointer"}}>{newuser? " Sign In" :" Create Account"}</span></p>  
             <span>____________________Or__________________</span>   
                 
                 <div className="social-btn">
                   <div className="facebook-btn">
                     <img src={fbookIcon} alt="" width="40"/>
-                    <button>Continue with FaceBook</button>
+                    <button onClick={fbSignIn} className="btn-block">Continue with FaceBook</button>
                   </div>
 
                   <div className="google-btn">
                     <img src={googleIcon} alt="" width="40"/>
-                    <button onClick={handleGoogleSignIn}>Continue with Google</button>
+                    <button onClick={GoogleSignIn}>Continue with Google</button>
                   </div>
                 </div> 
                 
@@ -194,10 +217,6 @@ const handleSubmit=(e)=>{
         </div>
       </div>
 
-
-      
-      {/* SIGNING PART END */}
-      {/* <SignUp/> */}
     </div>
   );
 };

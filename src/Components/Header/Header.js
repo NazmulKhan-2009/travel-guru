@@ -1,57 +1,59 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import "./Header.css"
 import logo from '../../Logo.png'
+import { Link } from 'react-router-dom';
+import { userContext } from '../../App';
 
 
 const Header = () => {
-  return (
-    <div>
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
+  console.log(loggedInuser);
 
-<nav className="navbar navbar-expand-lg navbar-light text-white">
-  <div className="container">
-  <a class="navbar-brand" href="#">
-      <img src={logo} width="120" height="50" className="d-inline-block align-top" alt="" loading="lazy" style={{filter:"brightness(0) invert(1)"}}/>
-      
-    </a>
-    
-    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    {/* <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search" style={{opacity: .6}}></input> */}
-    
-    <div class="wrapper">
-      <div class="search_box">
-          <input type="text" placeholder="what are you looking for?"/>
+
+  
+  return (
+    <div className='container nav_bg'>
+      <div className='row'>
+        <div className='col-md-12 mx-auto'>
+          <nav className="navbar navbar-expand-lg navbar-light text-white">
+            <div className="container">
+            
+            <a class="navbar-brand" href="/home">
+            <img src={logo} width="120" height="50"  alt="" style={{filter:"brightness(0) invert(1)"}}/>
+            </a> 
+            <div class="wrapper">
+            <div class="search_box">
+            <input type="text" placeholder="Search Location"/>
           
-          {/* <i className="fas fa-search"></i> */}
+              
+          </div>
+          </div>
           
-      </div>
-</div>
-      <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
-        <li className="nav-item ">
-          <a className="nav-link text-white" aria-current="page" href="/home">Home</a>
-        </li>
-        <li className="nav-item ">
-          <a className="nav-link text-white" href="#">Link</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link  text-white" href="#">Link</a>
-        </li>
-        <li className="nav-item ">
-          <a className="nav-link text-white" href="#">Link</a>
-        </li>
-        
-        
-        
-      </ul>
-      <button className="btn btn-danger">Login</button>
+
+          <ul className="navbar-nav mr-auto ml-0">
+            <li className="nav-item ">
+              <Link className="nav-link text-white" aria-current="page" href="/home">Home</Link>
+            </li>
+            <li className="nav-item ">
+              <Link className="nav-link text-white" href="#">Destination</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link  text-white" href="#">Blog</Link>
+            </li>
+            <li className="nav-item ">
+              <Link className="nav-link text-white" href="#">contact</Link>
+            </li>      
+          </ul>
+
+      <Link><button className="btn" style={{background:"#F9A51A"}}> {loggedInuser.isSignedIn? "Log Out" : "Login" }</button></Link> 
       
-    </div>
+    
   </div>
 </nav>
-       
-    </div>
+       <h4 style={{color:"#F9A51A"}}>{loggedInuser.name ||loggedInuser.email}</h4>
+       </div>
+ </div>
+</div>
   );
 };
 

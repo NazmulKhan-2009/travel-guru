@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Header from '../Header/Header';
 import HotelReservation from '../HotelReservation/HotelReservation';
 import { LocationData } from '../LocationData';
@@ -14,9 +14,17 @@ const HotelsRoom = () => {
   const rooms=LocationData[hotel-1]
   console.log( rooms.roomDetails)
   const details=rooms.roomDetails
-  // const details=Object.keys(rooms.room1)
-  // console.log( details)
-  // console.log( rooms.room1.image)
+  
+
+  const signOut=()=>{
+    setloggedInUser({
+      name:"",
+      email:"",      
+      photo:"",
+      error:"",
+    })
+  }
+
   return (
    
        
@@ -37,23 +45,26 @@ const HotelsRoom = () => {
     
       <ul className="navbar-nav mr-auto mb-2 mb-lg-0 ml-auto">
         <li className="nav-item pl-5">
-          <a className="nav-link text-dark" aria-current="page" href="/home">Home</a>
+          <Link className="nav-link text-dark" aria-current="page" to="/home">Home</Link>
         </li>
         <li className="nav-item pl-5 ">
-          <a className="nav-link text-dark" href="#">Link</a>
+          <Link className="nav-link text-dark" to="#">Destination</Link>
         </li>
         <li className="nav-item pl-5 ">
-          <a className="nav-link  text-dark" href="#">Link</a>
+          <Link className="nav-link  text-dark" to="#">Blog</Link>
         </li>
         <li className="nav-item pl-5 ">
-          <a className="nav-link text-dark" href="#">Link</a>
+          <Link className="nav-link text-dark" to="#">Contact</Link>
         </li> 
            
          
       </ul>
       
       <div className="text-center">
-      <button className="btn btn-danger">Login as {loggedInuser.name}</button>
+      <button className="btn btn-danger">Login as {loggedInuser.name || loggedInuser.email}</button>
+      {
+       loggedInuser.isSignedIn && <button onClick={signOut} className="btn btn-danger" >Sign Out</button>
+      }
       </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ label span{
   font-size: 14px;
   font-weight: 600;
   color: #505f75;
-  text-transform: lowercase;
+  /* text-transform: lowercase; */
 }
 
 .my-form input{
@@ -34,7 +34,7 @@ label span{
   font-family: 'Nunito', sans-serif; 
 }
 
-button{
+.my-form button{
   /* display: block; */
   margin: 0 auto;
   width: 100%;
@@ -94,4 +94,21 @@ button{
   color: black;
   margin-top: 10px;
   cursor: pointer;
+  outline: none;
 }
+.facebook-btn button{
+outline: none;
+border: none;
+}
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #F9A51A;
+}
+
