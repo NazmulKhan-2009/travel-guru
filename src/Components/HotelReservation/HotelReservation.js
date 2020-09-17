@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { userContext } from '../../App';
 
 const HotelReservation = ({hotelData}) => {
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
   const {title,image,p1,p2,p3,rating,price,other}=hotelData;
   
   return (

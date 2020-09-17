@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../Header/Header';
 import HotelReservation from '../HotelReservation/HotelReservation';
 import { LocationData } from '../LocationData';
 import logo  from "../../Logo.png"
+import { userContext } from '../../App';
 
 const HotelsRoom = () => {
+  const [loggedInuser, setloggedInUser]=useContext(userContext)
   const {hotel}=useParams()
 
   console.log( hotel)
@@ -51,7 +53,7 @@ const HotelsRoom = () => {
       </ul>
       
       <div className="text-center">
-      <button className="btn btn-danger">Login</button>
+      <button className="btn btn-danger">Login as {loggedInuser.name}</button>
       </div>
     </div>
   </div>

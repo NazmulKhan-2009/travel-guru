@@ -16,11 +16,11 @@ import BookingFinalize from './Components/BookingFinalize/BookingFinalize';
 import PrivateRouter from './Components/PrivateRouter/PrivateRouter';
 export const userContext=createContext()
 function App() {
-  const [loggedInuser, loggedOutUser]=useState({})
+  const [loggedInuser, setloggedInUser]=useState({})
   return (
-    <userContext.Provider value={[loggedInuser, loggedOutUser]}>
+    <userContext.Provider value={[loggedInuser, setloggedInUser]}>
      
-      
+       
     <Router>
       <Switch>
       
