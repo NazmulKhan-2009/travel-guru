@@ -1,0 +1,31 @@
+.booking{
+position: absolute;
+width: 470px;
+height: 427px;
+left: 835px;
+top:100px;
+
+background: #FFFFFF;
+border-radius: 5px;
+}
+.date-pick{
+color: #F9A51A;
+width: 200px;
+float: left;
+padding: 20px 30px;
+}
+
+.start-Booking{
+  /* display: flex; */
+/* flex-direction: row; */
+/* padding: 20px 152px; */
+
+/* position: absolute; */
+width: 417px;
+height: 60px;
+/* left: 859px; */
+/* top: 562px; */
+
+background: #F9A51A;
+border-radius: 5px;
+}
