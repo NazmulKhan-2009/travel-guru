@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Header from './Components/Header/Header';
@@ -13,9 +13,13 @@ import {
   Link
 } from "react-router-dom";
 import BookingFinalize from './Components/BookingFinalize/BookingFinalize';
+import PrivateRouter from './Components/PrivateRouter/PrivateRouter';
+export const userContext=createContext()
 function App() {
+  const [loggedInuser, loggedOutUser]=useState({})
   return (
-    <div> 
+    <userContext.Provider value={[loggedInuser, loggedOutUser]}>
+     
       
     <Router>
       <Switch>
@@ -32,9 +36,9 @@ function App() {
           <Login/>
         </Route>
 
-        <Route path="/hotelsroom/:hotel">
+        <PrivateRouter path="/hotelsroom/:hotel">
           <HotelsRoom/>
-        </Route>
+        </PrivateRouter>
 
         <Route path="/">
           <Home/>
@@ -44,7 +48,7 @@ function App() {
       
       
 
-    </div>
+    </userContext.Provider>
   );
 }
 
