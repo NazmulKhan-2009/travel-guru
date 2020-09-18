@@ -3,6 +3,7 @@ import { userContext } from '../../App';
 import Destination from '../Destination/Destination';
 import Header from '../Header/Header';
 import { LocationData } from '../LocationData';
+import backgroundImage from "../../Image/Rectangle 1.png";
 
 
 
@@ -27,6 +28,8 @@ const Home = () => {
     marginTop:"0px",
     
     backgroundImage:'linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url("https://lh3.googleusercontent.com/q1SdVBzlr6aas2_bqE-2z9wLHcuPRs_mXen0z5S1W8j8hgDXDZPcPzgXPjoMUklMvzUFKqLWDA8aV2qVS5YCR6wZY_snrOq1jnENTihOtRRtwU0EeWlp8lQLnM7fWrorUVqhRQyNnA=w2400")',
+
+    
     height:'100vh',
     backgroundRepeat:"no-repeat",
     backgroundSize:"100% 100%",
